@@ -57,9 +57,29 @@ src/main/java/edu/eci/arsw/blueprints
 - Analiza la capa `services` (`BlueprintsServices`) y el controlador `BlueprintsAPIController`.
 
 ### 2. Migración a persistencia en PostgreSQL
+
 - Configura una base de datos PostgreSQL (puedes usar Docker).  
-- Implementa un nuevo repositorio `PostgresBlueprintPersistence` que reemplace la versión en memoria.  
+R/ Para levantar la base de datos PostgreSQL requerida para el funcionamiento de la aplicación, utilizamos el siguiente comando en la terminal:
+
+```bash
+docker run --rm --name postgres-dev -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=labo202628 -e POSTGRES_DB=postgres-dev -p 5432:5432 -d postgres:16
+```
+Ademas de agregar su respectiva dependencia en el xml y en properties
+
+![img.png](img.png)![img_1.png](img_1.png)
+
+- Implementa un nuevo repositorio `PostgresBlueprintPersistence` que reemplace la versión en memoria.
+R/ PostgresBlueprintPersistence: Se creó una nueva implementación de la interfaz BlueprintPersistence utilizando Spring JdbcTemplate para realizar las consultas y operaciones directamente sobre PostgreSQL.
+
+![img_2.png](img_2.png)
+
+![img_4.png](img_4.png)
+
+![img_5.png](img_5.png)
+
 - Mantén el contrato de la interfaz `BlueprintPersistence`.  
+R/ Para asegurar que la arquitectura y las pruebas existentes no se rompan, la nueva clase respeta y implementa estrictamente todos los métodos definidos en el contrato original de la interfaz BlueprintPersistence.
+![img_3.png](img_3.png)
 
 ### 3. Buenas prácticas de API REST
 - Cambia el path base de los controladores a `/api/v1/blueprints`.  
@@ -92,6 +112,18 @@ src/main/java/edu/eci/arsw/blueprints
   - **RedundancyFilter**: elimina puntos duplicados consecutivos.  
   - **UndersamplingFilter**: conserva 1 de cada 2 puntos.  
 - Activa los filtros mediante perfiles de Spring (`redundancy`, `undersampling`).  
+
+R/ Se implementaron filtros para procesar y optimizar los puntos de los planos bajo la interfaz `BlueprintsFilter`:
+
+* **RedundancyFilter**: Elimina los puntos consecutivos duplicados $(x,y)$. Se activa con el perfil: `spring.profiles.active=redundancy`.
+* **UndersamplingFilter**: Conserva 1 de cada 2 puntos para reducir la densidad del plano. Se activa con el perfil: `spring.profiles.active=undersampling`.
+* **IdentityFilter**: Filtro por defecto que no altera el plano si no se especifica ningún perfil.
+
+### Cómo probarlo:
+Modifica la siguiente línea en tu archivo `src/main/resources/application.properties` con el filtro que deseas evaluar:
+```properties
+spring.profiles.active=redundancy
+```
 
 ---
 
