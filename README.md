@@ -123,6 +123,8 @@ R/ Se implementaron filtros para procesar y optimizar los puntos de los planos b
 Modifica la siguiente línea en tu archivo `src/main/resources/application.properties` con el filtro que deseas evaluar:
 ```properties
 spring.profiles.active=redundancy
+```
+
 ---
 
 ## ✅ Entregables
