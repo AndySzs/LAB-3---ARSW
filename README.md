@@ -113,6 +113,16 @@ R/ Para asegurar que la arquitectura y las pruebas existentes no se rompan, la n
   - **UndersamplingFilter**: conserva 1 de cada 2 puntos.  
 - Activa los filtros mediante perfiles de Spring (`redundancy`, `undersampling`).  
 
+R/ Se implementaron filtros para procesar y optimizar los puntos de los planos bajo la interfaz `BlueprintsFilter`:
+
+* **RedundancyFilter**: Elimina los puntos consecutivos duplicados $(x,y)$. Se activa con el perfil: `spring.profiles.active=redundancy`.
+* **UndersamplingFilter**: Conserva 1 de cada 2 puntos para reducir la densidad del plano. Se activa con el perfil: `spring.profiles.active=undersampling`.
+* **IdentityFilter**: Filtro por defecto que no altera el plano si no se especifica ningún perfil.
+
+### Cómo probarlo:
+Modifica la siguiente línea en tu archivo `src/main/resources/application.properties` con el filtro que deseas evaluar:
+```properties
+spring.profiles.active=redundancy
 ---
 
 ## ✅ Entregables

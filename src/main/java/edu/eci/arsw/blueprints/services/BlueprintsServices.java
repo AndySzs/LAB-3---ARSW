@@ -7,7 +7,9 @@ import edu.eci.arsw.blueprints.persistence.BlueprintPersistence;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BlueprintsServices {
@@ -25,11 +27,17 @@ public class BlueprintsServices {
     }
 
     public Set<Blueprint> getAllBlueprints() {
-        return persistence.getAllBlueprints();
+        Set<Blueprint> blueprints = persistence.getAllBlueprints();
+        return blueprints.stream()
+                .map(filter::apply)
+                .collect(Collectors.toSet());
     }
 
     public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException {
-        return persistence.getBlueprintsByAuthor(author);
+        Set<Blueprint> blueprints = persistence.getBlueprintsByAuthor(author);
+        return blueprints.stream()
+                .map(filter::apply)
+                .collect(Collectors.toSet());
     }
 
     public Blueprint getBlueprint(String author, String name) throws BlueprintNotFoundException {
