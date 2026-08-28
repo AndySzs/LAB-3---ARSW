@@ -121,6 +121,8 @@ R/ La dependencia springdoc-openapi-starter-webmvc-ui ya esta en el pom.xml junt
 - Swagger UI: http://localhost:8080/swagger-ui.html
 - OpenAPI JSON: http://localhost:8080/v3/api-docs
 
+![img_6.png](img_6.png)
+
 ### 5. Filtros de *Blueprints*
 - Implementa filtros:
   - **RedundancyFilter**: elimina puntos duplicados consecutivos.  
